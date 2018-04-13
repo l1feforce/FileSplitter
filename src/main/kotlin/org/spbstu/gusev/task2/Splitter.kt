@@ -8,13 +8,12 @@ object Splitter {
     private fun outputFilesNaming(typeOfOutput: Boolean, outputFilesName: String,
                                   filesAmount: Int): BufferedWriter {
         val symInUnicode = 96
-        val outputFile = when (typeOfOutput) {
+        return when (typeOfOutput) {
             true -> File("output/" + outputFilesName +
                     (filesAmount) + ".txt").bufferedWriter()
             false -> File("output/" + outputFilesName +
                     (filesAmount + symInUnicode).toChar() + ".txt").bufferedWriter()
         }
-        return outputFile
     }
 
     fun splitByLines(outputFilesName: String, typeOfOutput: Boolean,
