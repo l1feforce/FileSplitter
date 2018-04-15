@@ -2,6 +2,8 @@ package org.spbstu.gusev.task2
 
 import java.io.BufferedWriter
 import java.io.File
+import java.io.IOException
+import java.lang.Math.ceil
 
 object Splitter {
 
@@ -34,12 +36,13 @@ object Splitter {
         }
     }
 
+
     fun splitBySymbols(outputFilesName: String, typeOfOutput: Boolean,
                        inputFilePosition: String, sizeInSymbols: Int) {
         val inputFile = File(inputFilePosition).readText()
         var count = 0
         var counterForLines = 0
-        for (filesAmount in 1..Math.ceil(inputFile.length / sizeInSymbols.toDouble()).toInt()) {
+        for (filesAmount in 1..ceil(inputFile.length / sizeInSymbols.toDouble()).toInt()) {
             val outputFile = outputFilesNaming(typeOfOutput, outputFilesName, filesAmount)
             while (count < sizeInSymbols && counterForLines < inputFile.length) {
                 outputFile.append(inputFile[counterForLines])
@@ -51,7 +54,26 @@ object Splitter {
         }
     }
 
-    fun splitByAmount () {
-
+    /**
+     * function distributes symbols in files
+     * by inserting into each file
+     * 'symbolsInFile/amountOfFiles' rounded upwards symbols
+     */
+    fun splitByAmount(outputFilesName: String, typeOfOutput: Boolean,
+                      inputFilePosition: String, sizeInFilesAmount: Int) {
+        val inputFile = File(inputFilePosition).readText()
+        var count = 0
+        var counterForLines = 0
+        if (sizeInFilesAmount < 1) throw IOException("Incorrect number of output files")
+        for (filesAmount in 1..sizeInFilesAmount) {
+            val outputFile = outputFilesNaming(typeOfOutput, outputFilesName, filesAmount)
+            while (count < ceil(inputFile.length.toDouble()/sizeInFilesAmount.toDouble()) && counterForLines < inputFile.length) {
+                outputFile.append(inputFile[counterForLines])
+                count++
+                counterForLines++
+            }
+            count = 0
+            outputFile.close()
+        }
     }
 }

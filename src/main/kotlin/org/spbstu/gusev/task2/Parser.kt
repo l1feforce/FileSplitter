@@ -40,7 +40,7 @@ fun main(args: Array<String>) = mainBody {
         when {
             a -> Splitter.splitByLines(filesName, filesNumbering, filePosition, filesOutputSizeInLines)
             b -> Splitter.splitBySymbols(filesName, filesNumbering, filePosition, filesOutputSizeInChar)
-            c -> Splitter.splitByAmount()
+            c -> Splitter.splitByAmount(filesName, filesNumbering, filePosition, filesOutputSizeByAmount)
         }
     }
 }

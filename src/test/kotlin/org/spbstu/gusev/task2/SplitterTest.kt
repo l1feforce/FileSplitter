@@ -89,4 +89,31 @@ class SplitterTest {
         assertFileContent("output/fileForSecondTestc.txt",
                 "123")
     }
+
+    @org.junit.Test
+    fun splitByAmount() {
+        Splitter.splitByAmount("fileForThirdTest", true,
+                "input/inputfile2.txt", 5)
+
+        assertFileContent("output/fileForThirdTest1.txt",
+                "1")
+        assertFileContent("output/fileForThirdTest2.txt",
+                "2")
+        assertFileContent("output/fileForThirdTest3.txt",
+                "3")
+        assertFileContent("output/fileForThirdTest4.txt",
+                "")
+        assertFileContent("output/fileForThirdTest5.txt",
+                "")
+
+        Splitter.splitByAmount("fileForThirdTest", false,
+                "input/inputfile2.1.txt", 3)
+
+        assertFileContent("output/fileForThirdTesta.txt",
+                "1234")
+        assertFileContent("output/fileForThirdTestb.txt",
+                "5678")
+        assertFileContent("output/fileForThirdTestc.txt",
+                "90")
+    }
 }
