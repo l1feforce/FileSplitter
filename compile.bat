@@ -1,0 +1,1 @@
+"C:\Users\svkil\IdeaProjects\StringSplitter\bin\kotlinc" src/main/kotlin/org/spbstu/gusev/task2/* -cp C:\Users\svkil\.m2\repository\com\xenomachina\kotlin-argparser\2.0.6\kotlin-argparser-2.0.6.jar;C:\Users\svkil\.m2\repository\com\xenomachina\xenocom\0.0.7\xenocom-0.0.7.jar -include-runtime -d bin\Parser.jar

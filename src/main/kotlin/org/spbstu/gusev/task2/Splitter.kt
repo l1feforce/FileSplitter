@@ -7,29 +7,30 @@ import java.lang.Math.ceil
 
 object Splitter {
 
-    private fun outputFilesNaming(typeOfOutput: Boolean, outputFilesName: String,
-                                  filesAmount: Int): BufferedWriter {
-        val symInUnicode = 96
-        return when (typeOfOutput) {
-            true -> File("output/" + outputFilesName +
-                    (filesAmount) + ".txt").bufferedWriter()
+    private fun outputFilesNames(typeOfNumbering: Boolean, outputFilesName: String,
+                                 filesAmount: Int): BufferedWriter {
+        val englishSymbolsInUnicode = 96
+        val englishAlphabetSize = 26
+        return when (typeOfNumbering) {
+            true -> File("output/$outputFilesName$filesAmount.txt").bufferedWriter()
             false -> File("output/" + outputFilesName +
-                    (filesAmount + symInUnicode).toChar() + ".txt").bufferedWriter()
+                    (ceil(filesAmount.toDouble() / englishAlphabetSize.toDouble()) + englishSymbolsInUnicode).toChar()
+                    + (filesAmount + englishSymbolsInUnicode).toChar() + ".txt").bufferedWriter()
         }
     }
 
-    fun splitByLines(outputFilesName: String, typeOfOutput: Boolean,
-                     inputFilePosition: String, sizeInLines: Int) {
-        val inputFile = File(inputFilePosition).readLines()
+    fun splitByLinesAmount(outputFilesName: String, typeOfNumbering: Boolean,
+                           inputFilePosition: String, sizeInLines: Int) {
+        val inputFile = File(inputFilePosition).readLines().filter {it != ""}
         var count = 0
-        var counterForLines = 0
-        for (filesAmount in 1..inputFile.size / sizeInLines + 1) {
-            val outputFile = outputFilesNaming(typeOfOutput, outputFilesName, filesAmount)
-            while (count < sizeInLines && counterForLines < inputFile.size) {
-                outputFile.write(inputFile[counterForLines])
+        var linesCounter = 0
+        for (filesAmount in 1..ceil(inputFile.size.toDouble() / sizeInLines.toDouble()).toInt()) {
+            val outputFile = outputFilesNames(typeOfNumbering, outputFilesName, filesAmount)
+            while (count < sizeInLines && linesCounter < inputFile.size) {
+                outputFile.write(inputFile[linesCounter])
                 outputFile.newLine()
                 count++
-                counterForLines++
+                linesCounter++
             }
             count = 0
             outputFile.close()
@@ -37,17 +38,18 @@ object Splitter {
     }
 
 
-    fun splitBySymbols(outputFilesName: String, typeOfOutput: Boolean,
-                       inputFilePosition: String, sizeInSymbols: Int) {
+    fun splitBySymbolsAmount(outputFilesName: String, typeOfNumbering: Boolean,
+                             inputFilePosition: String, sizeInSymbols: Int) {
         val inputFile = File(inputFilePosition).readText()
         var count = 0
-        var counterForLines = 0
+        var linesCounter = 0
         for (filesAmount in 1..ceil(inputFile.length / sizeInSymbols.toDouble()).toInt()) {
-            val outputFile = outputFilesNaming(typeOfOutput, outputFilesName, filesAmount)
-            while (count < sizeInSymbols && counterForLines < inputFile.length) {
-                outputFile.append(inputFile[counterForLines])
+            val outputFile = outputFilesNames(typeOfNumbering, outputFilesName, filesAmount)
+            while (count < sizeInSymbols && linesCounter < inputFile.length) {
+                outputFile.append(inputFile[linesCounter])
+                if (count == 9) outputFile.newLine()
                 count++
-                counterForLines++
+                linesCounter++
             }
             count = 0
             outputFile.close()
@@ -57,20 +59,21 @@ object Splitter {
     /**
      * function distributes symbols in files
      * by inserting into each file
-     * 'symbolsInFile/amountOfFiles' rounded upwards symbols
+     * 'symbolsInFile/filesAmount' rounded upwards symbols
      */
-    fun splitByAmount(outputFilesName: String, typeOfOutput: Boolean,
-                      inputFilePosition: String, sizeInFilesAmount: Int) {
+    fun splitByFilesAmount(outputFilesName: String, typeOfNumbering: Boolean,
+                           inputFilePosition: String, outputFilesAmount: Int) {
         val inputFile = File(inputFilePosition).readText()
         var count = 0
-        var counterForLines = 0
-        if (sizeInFilesAmount < 1) throw IOException("Incorrect number of output files")
-        for (filesAmount in 1..sizeInFilesAmount) {
-            val outputFile = outputFilesNaming(typeOfOutput, outputFilesName, filesAmount)
-            while (count < ceil(inputFile.length.toDouble()/sizeInFilesAmount.toDouble()) && counterForLines < inputFile.length) {
-                outputFile.append(inputFile[counterForLines])
+        var linesCounter = 0
+        if (outputFilesAmount < 1) throw IOException("Incorrect number of output files")
+        for (filesAmount in 1..outputFilesAmount) {
+            val outputFile = outputFilesNames(typeOfNumbering, outputFilesName, filesAmount)
+            while (count < ceil(inputFile.length.toDouble() / outputFilesAmount.toDouble()) && linesCounter < inputFile.length) {
+                outputFile.append(inputFile[linesCounter])
+                if (count == 9) outputFile.newLine()
                 count++
-                counterForLines++
+                linesCounter++
             }
             count = 0
             outputFile.close()
