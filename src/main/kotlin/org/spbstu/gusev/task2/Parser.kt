@@ -1,7 +1,10 @@
 package org.spbstu.gusev.task2
 
 import com.xenomachina.argparser.*
+import java.io.BufferedReader
 import java.io.IOException
+import java.io.InputStreamReader
+import java.util.*
 
 
 class MyArgs(parser: ArgParser) {
@@ -22,7 +25,7 @@ class MyArgs(parser: ArgParser) {
             help = "output files size by amount of output files") { toInt() }.default(-1)
 
     val inputFileName by parser.positional("INPUT",
-            help = "input file name in dir \"input/\"")
+            help = "input file name in dir \"src/test/resources/\"")
 
 }
 
@@ -37,20 +40,20 @@ fun main(args: Array<String>) = mainBody {
         if (a && outputFilesSizeInLines < 1 || b && outputFilesSizeInChar < 1 ||
                 c && outputFilesSizeByAmount < 1) throw IOException("Can't enter size < 1")
         if (!(a || b || c)) Splitter.splitByLinesAmount(outputFilesName, filesTypeOfNumbering,
-                "input/$inputFileName.txt", 100)
+                "src/test/resources/$inputFileName.txt", 100)
         when {
             a && outputFilesName != "-" -> Splitter.splitByLinesAmount(outputFilesName, filesTypeOfNumbering,
-                    "input/$inputFileName.txt", outputFilesSizeInLines)
+                    "src/test/resources/$inputFileName.txt", outputFilesSizeInLines)
             b && outputFilesName != "-" -> Splitter.splitBySymbolsAmount(outputFilesName, filesTypeOfNumbering,
-                    "input/$inputFileName.txt", outputFilesSizeInChar)
+                    "src/test/resources/$inputFileName.txt", outputFilesSizeInChar)
             c && outputFilesName != "-" -> Splitter.splitByFilesAmount(outputFilesName, filesTypeOfNumbering,
-                    "input/$inputFileName.txt", outputFilesSizeByAmount)
+                    "src/test/resources/$inputFileName.txt", outputFilesSizeByAmount)
             a -> Splitter.splitByLinesAmount(inputFileName, filesTypeOfNumbering,
-                    "input/$inputFileName.txt", outputFilesSizeInLines)
+                    "src/test/resources/$inputFileName.txt", outputFilesSizeInLines)
             b -> Splitter.splitBySymbolsAmount(inputFileName, filesTypeOfNumbering,
-                    "input/$inputFileName.txt", outputFilesSizeInChar)
+                    "src/test/resources/$inputFileName.txt", outputFilesSizeInChar)
             c -> Splitter.splitByFilesAmount(inputFileName, filesTypeOfNumbering,
-                    "input/$inputFileName.txt", outputFilesSizeByAmount)
+                    "src/test/resources/$inputFileName.txt", outputFilesSizeByAmount)
         }
     }
 }

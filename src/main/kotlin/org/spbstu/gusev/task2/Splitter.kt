@@ -11,17 +11,21 @@ object Splitter {
                                  filesAmount: Int): BufferedWriter {
         val englishSymbolsInUnicode = 96
         val englishAlphabetSize = 26
+        if (filesAmount > englishAlphabetSize * englishAlphabetSize) throw IOException("Reached the maximum number of files")
+        val filesAmount2 = if (filesAmount % englishAlphabetSize == 0) 26
+        else filesAmount % englishAlphabetSize
+        val firstChar = (ceil(filesAmount.toDouble() / englishAlphabetSize.toDouble())
+                + englishSymbolsInUnicode).toChar()
+        val secondChar = (filesAmount2 + englishSymbolsInUnicode).toChar()
         return when (typeOfNumbering) {
             true -> File("output/$outputFilesName$filesAmount.txt").bufferedWriter()
-            false -> File("output/" + outputFilesName +
-                    (ceil(filesAmount.toDouble() / englishAlphabetSize.toDouble()) + englishSymbolsInUnicode).toChar()
-                    + (filesAmount + englishSymbolsInUnicode).toChar() + ".txt").bufferedWriter()
+            false -> File("output/$outputFilesName$firstChar$secondChar.txt").bufferedWriter()
         }
     }
 
     fun splitByLinesAmount(outputFilesName: String, typeOfNumbering: Boolean,
                            inputFilePosition: String, sizeInLines: Int) {
-        val inputFile = File(inputFilePosition).readLines().filter {it != ""}
+        val inputFile = File(inputFilePosition).readLines()
         var count = 0
         var linesCounter = 0
         for (filesAmount in 1..ceil(inputFile.size.toDouble() / sizeInLines.toDouble()).toInt()) {

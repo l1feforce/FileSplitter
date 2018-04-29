@@ -15,7 +15,7 @@ class SplitterTest {
     @org.junit.Test
     fun splitByLines() {
         Splitter.splitByLinesAmount("file", true,
-                "src/test/kotlin/resources/inputfile1.txt", 10)
+                "src/test/resources/inputfile1.txt", 10)
         assertFileContent("output/file1.txt",
                 "111111\n" +
                         "222222\n" +
@@ -42,7 +42,7 @@ class SplitterTest {
                 "111111")
 
         Splitter.splitByLinesAmount("file", false,
-                "src/test/kotlin/resources/inputfile1.1.txt", 5)
+                "src/test/resources/inputfile1.1.txt", 5)
         assertFileContent("output/fileaa.txt",
                 "111111\n" +
                         "222222\n" +
@@ -66,28 +66,32 @@ class SplitterTest {
                         "333333")
 
         Splitter.splitByLinesAmount("filename", true,
-                "src/test/kotlin/resources/inputfile1.2.txt", 5)
+                "src/test/resources/inputfile1.2.txt", 5)
         assertFileContent("output/filename1.txt",
                 "111111\n" +
                         "222222\n" +
+                        "\n" +
                         "333333\n" +
-                        "444444\n" +
-                        "555555")
+                        "444444")
         assertFileContent("output/filename2.txt",
-                "666666\n" +
-                        "777777\n" +
-                        "888888\n" +
-                        "999999\n" +
-                        "000000")
-        assertFileContent("output/filename3.txt",
-                "999999\n" +
-                        "888888\n" +
-                        "777777\n" +
+                "\n" +
+                        "555555\n" +
                         "666666\n" +
-                        "555555")
+                        "777777\n")
+        assertFileContent("output/filename3.txt",
+                "888888\n" +
+                        "999999\n" +
+                        "000000\n" +
+                        "999999\n" +
+                        "888888")
         assertFileContent("output/filename4.txt",
-                "444444\n" +
-                        "333333")
+                "777777\n" +
+                        "\n" +
+                        "666666\n" +
+                        "555555\n" +
+                        "444444")
+        assertFileContent("output/filename5.txt",
+                "333333")
         File("output/").listFiles().forEach { it.delete() }
 
     }
@@ -95,7 +99,7 @@ class SplitterTest {
     @org.junit.Test
     fun splitBySymbols() {
         Splitter.splitBySymbolsAmount("fileForSecondTest", true,
-                "src/test/kotlin/resources/inputfile2.txt", 6)
+                "src/test/resources/inputfile2.txt", 6)
         assertFileContent("output/fileForSecondTest1.txt",
                 "123456")
         assertFileContent("output/fileForSecondTest2.txt",
@@ -104,7 +108,7 @@ class SplitterTest {
                 "123")
 
         Splitter.splitBySymbolsAmount("fileForSecondTest", false,
-                "src/test/kotlin/resources/inputfile2.txt", 6)
+                "src/test/resources/inputfile2.txt", 6)
         assertFileContent("output/fileForSecondTestaa.txt",
                 "123456")
         assertFileContent("output/fileForSecondTestab.txt",
@@ -113,7 +117,7 @@ class SplitterTest {
                 "123")
 
         Splitter.splitBySymbolsAmount("outputfile1", false,
-                "src/test/kotlin/resources/inputfile2.1.txt", 20)
+                "src/test/resources/inputfile2.1.txt", 20)
         assertFileContent("output/outputfile1aa.txt",
                 "1234567890\n" +
                         "1234567890")
@@ -126,13 +130,13 @@ class SplitterTest {
         assertFileContent("output/outputfile1ad.txt",
                 "1234567890")
 
-        File("output/").listFiles().forEach { it.delete() }
+       File("output/").listFiles().forEach { it.delete() }
     }
 
     @org.junit.Test
     fun splitByAmount() {
         Splitter.splitByFilesAmount("fileForThirdTest", true,
-                "src/test/kotlin/resources/inputfile3.txt", 5)
+                "src/test/resources/inputfile3.txt", 5)
         assertFileContent("output/fileForThirdTest1.txt",
                 "1")
         assertFileContent("output/fileForThirdTest2.txt",
@@ -145,7 +149,7 @@ class SplitterTest {
                 "")
 
         Splitter.splitByFilesAmount("fileForThirdTest", false,
-                "src/test/kotlin/resources/inputfile3.1.txt", 3)
+                "src/test/resources/inputfile3.1.txt", 3)
         assertFileContent("output/fileForThirdTestaa.txt",
                 "1234")
         assertFileContent("output/fileForThirdTestab.txt",
